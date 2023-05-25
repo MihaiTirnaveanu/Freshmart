@@ -2,13 +2,16 @@
 
 @{
     ViewData["Title"] = "Index";
+    bool isAdmin = User.IsInRole("Administrator");
 }
 
 <h1>Index</h1>
 
-<p>
+@if (isAdmin)
+{
     <a asp-action="Create">Create New</a>
-</p>
+
+}
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +34,13 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (isAdmin)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+                <a class="btn btn-primary" asp-controller="Products" asp-action="FilteredByCategory" asp-route-categoryId="@item.Id">View Products</a>
             </td>
         </tr>
 }

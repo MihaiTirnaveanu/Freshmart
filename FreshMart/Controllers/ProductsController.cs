@@ -18,22 +18,41 @@ namespace FreshMart.Controllers
     public class ProductsController : Controller
     {
         private IProductService _productService;
+        private ICategoryService _categoryService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
         // GET: Products
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(string productName)
         {
             var products = _productService.GetAllProducts();
+            if (String.IsNullOrEmpty(productName))
+            {
+                return View(products);
+            } else
+            {
+                var searchItems = _productService.GetSearchedProducts(productName);
+                return View(searchItems);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult FilteredByCategory(int categoryId)
+        {
+            // Retrieve products based on the categoryId and pass them to the view
+            var products = _productService.GetProductsByCategoryId(categoryId);
             return View(products);
         }
 
+
         // GET: Products/Details/5
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -72,6 +91,8 @@ namespace FreshMart.Controllers
         {
             if (ModelState.IsValid)
             {
+                var category = _categoryService.GetCategoryById(product.CategoryId);
+                product.Category = category;
                 _productService.AddProduct(product);
                 return RedirectToAction(nameof(Index));
             }

@@ -15,6 +15,9 @@ namespace FreshMart.Repositories.Interfaces
         void Save();
 
         ShoppingCart GetByUserId(string userId);
-        
+
+        void LoadCartCollection(ShoppingCart shoppingCart);
+
+
     }
 }

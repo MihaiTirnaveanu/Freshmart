@@ -19,41 +19,5 @@ namespace FreshMart.Models
         {
             CartItems = new List<CartItem>();
         }
-
-        public void AddItem(Product product, int quantity)
-        {
-            // Check if the item is already in the cart
-            var existingItem = CartItems.FirstOrDefault(item => item.ProductId == product.Id);
-
-            if (existingItem != null)
-            {
-                // Item already exists, update the quantity
-                existingItem.Quantity += quantity;
-            }
-            else
-            {
-                // Item doesn't exist, add it to the cart
-                var newItem = new CartItem
-                {
-                    Product = product,
-                    Quantity = quantity
-                };
-                CartItems.Add(newItem);
-            }
-        }
-
-        public void RemoveItem(Product product)
-        {
-            var itemToRemove = CartItems.FirstOrDefault(item => item.ProductId == product.Id);
-            if (itemToRemove != null)
-            {
-                CartItems.Remove(itemToRemove);
-            }
-        }
-
-        public double CalculateTotalPrice()
-        {
-            return CartItems.Sum(item => item.TotalPrice);
-        }
     }
 }

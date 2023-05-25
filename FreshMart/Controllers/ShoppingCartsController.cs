@@ -10,6 +10,7 @@ using FreshMart.Models;
 using FreshMart.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using FreshMart.Services;
 
 namespace FreshMart.Controllers
 {
@@ -31,11 +32,13 @@ namespace FreshMart.Controllers
         }
 
         // GET: ShoppingCarts
-        public IActionResult Index() 
+        public IActionResult Index()
         {
-            var shoppingCarts = _shoppingCartService.GetAllShoppingCarts();
-            return View(shoppingCarts);
+            var shoppingCart = _shoppingCartService.GetExistingShoppingCart();
+            _shoppingCartService.LoadCartCollection(shoppingCart);
+            return View(shoppingCart);
         }
+
 
         [HttpPost]
         public IActionResult AddToCart(int productId, int quantity)
@@ -51,11 +54,11 @@ namespace FreshMart.Controllers
                 ShoppingCartId = shoppingCart.Id,
                 ShoppingCart = shoppingCart
             };
-            _cartItemService.AddCartItem(cartItem);
             _shoppingCartService.AddCartItem(shoppingCart, cartItem);
 
-            return RedirectToAction("Index"); // Redirect back to the product list page after adding to cart
+            return RedirectToAction("Index");
         }
+
 
         // GET: ShoppingCarts/Details/5
         public IActionResult Details(int? id)
@@ -173,6 +176,25 @@ namespace FreshMart.Controllers
             _shoppingCartService.DeleteShoppingCart(id);
             
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCartItem(int cartItemId)
+        {
+            var cartItem = _cartItemService.GetCartItemById(cartItemId);
+
+            if (cartItem != null)
+            {
+                var shoppingCart = _shoppingCartService.GetShoppingCartById(cartItem.ShoppingCartId);
+                if (shoppingCart != null)
+                {
+                    _shoppingCartService.removeCartItem(shoppingCart, cartItem);
+                    //_cartItemService.DeleteCartItem(cartItem); 
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

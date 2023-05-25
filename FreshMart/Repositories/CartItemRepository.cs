@@ -16,5 +16,20 @@ namespace FreshMart.Repositories
         {
             _context.CartItems.Add(cartItem);
         }
+
+        public void Delete(CartItem cartItem)
+        {
+            _context.CartItems.Remove(cartItem);
+        }
+
+        public CartItem GetById(int id)
+        {
+            return _context.CartItems.FirstOrDefault(c => c.Id == id);
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
     }
 }

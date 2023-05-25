@@ -66,5 +66,15 @@ namespace FreshMart.Services
                 _productRepository.Save();
             }
         }
+
+        public List<Product> GetProductsByCategoryId(int categoryId)
+        {
+            return _productRepository.GetProductsByCategoryId(categoryId).ToList();
+        }
+
+        public List<Product> GetSearchedProducts(string productName)
+        {
+            return _productRepository.GetSearchProducts(productName).ToList();
+        }
     }
 }

@@ -80,6 +80,7 @@ namespace FreshMart.Services
 
         public void AddCartItem(ShoppingCart shoppingCart, CartItem cartItem)
         {
+            LoadCartCollection(shoppingCart);
             CartItem existingCartItem = shoppingCart.CartItems.FirstOrDefault(ci => ci.ProductId == cartItem.ProductId);
 
             if (existingCartItem != null)
@@ -90,6 +91,22 @@ namespace FreshMart.Services
             {
                 shoppingCart.CartItems.Add(cartItem);
             }
+
+            shoppingCart.Size = shoppingCart.CartItems.Sum(ci => ci.Quantity);
+            shoppingCart.Amount = shoppingCart.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
+
+            UpdateShoppingCart(shoppingCart);
+        }
+
+        public void LoadCartCollection(ShoppingCart shoppingCart)
+        {
+            _shoppingCartRepository.LoadCartCollection(shoppingCart);
+        }
+
+        public void removeCartItem(ShoppingCart shoppingCart, CartItem cartItem)
+        {
+            LoadCartCollection(shoppingCart);
+            shoppingCart.CartItems.Remove(cartItem);
 
             shoppingCart.Size = shoppingCart.CartItems.Sum(ci => ci.Quantity);
             shoppingCart.Amount = shoppingCart.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);

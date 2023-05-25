@@ -1,6 +1,8 @@
 ﻿using FreshMart.Data;
 using FreshMart.Models;
 using FreshMart.Repositories.Interfaces;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreshMart.Repositories
 {
@@ -37,9 +39,9 @@ namespace FreshMart.Repositories
             _context.Remove(shoppingCart);
         }
 
-        public void Update(ShoppingCart category)
+        public void Update(ShoppingCart shoppingCart)
         {
-            _context.Update(category);
+            _context.Update(shoppingCart);
         }
 
         public void Save()
@@ -49,6 +51,13 @@ namespace FreshMart.Repositories
 
         public ShoppingCart GetByUserId(string userId) {
            return _context.ShoppingCarts.FirstOrDefault(cart => cart.UserId == userId);
+        }
+
+        public void LoadCartCollection(ShoppingCart shoppingCart)
+        {
+            _context.Entry(shoppingCart).Collection(sc => sc.CartItems)
+                .Query()
+            .Include(ci => ci.Product).Load();
         }
     }
 }

@@ -63,5 +63,15 @@ namespace FreshMart.Repositories
         {
             return _context.Products.Find(id);
         }
+
+        public IEnumerable<Product> GetSearchProducts(string productname)
+        {
+            return _context.Products.Include(p => p.Category).Include(p => p.Supplier).Where(p => p.Name == productname).ToList();
+        }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryId)
+        {
+            return _context.Products.Include(p => p.Category).Include(p => p.Supplier).Where(p => p.CategoryId == categoryId).ToList();
+        }
     }
 }

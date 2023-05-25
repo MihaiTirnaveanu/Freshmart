@@ -32,7 +32,7 @@ namespace FreshMart.Controllers
         }
 
         //GET: Categories/Details/5
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Details(int? id)
         {
             if (id == null)

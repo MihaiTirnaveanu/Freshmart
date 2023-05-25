@@ -17,5 +17,9 @@ namespace FreshMart.Repositories.Interfaces
 
         List<Category> GetAllCategories();
         List<Supplier> GetAllSuppliers();
+
+        IEnumerable<Product> GetSearchProducts(string productname);
+
+        IEnumerable<Product> GetProductsByCategoryId(int categoryId);
     }
 }

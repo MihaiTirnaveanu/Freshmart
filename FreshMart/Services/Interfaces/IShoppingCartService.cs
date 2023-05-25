@@ -13,5 +13,9 @@ namespace FreshMart.Services.Interfaces
         ShoppingCart GetExistingShoppingCart();
 
         void AddCartItem(ShoppingCart shoppingCart, CartItem cartItem);
+
+        void LoadCartCollection(ShoppingCart shoppingCart);
+
+        void removeCartItem(ShoppingCart shoppingCart, CartItem cartItem);
     }
 }

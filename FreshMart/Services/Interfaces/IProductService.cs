@@ -15,5 +15,9 @@ namespace FreshMart.Services.Interfaces
         List<Supplier> GetAllSuppliers();
 
         Product GetProductById(int id);
+
+        List<Product> GetSearchedProducts(string productName);
+
+        List<Product> GetProductsByCategoryId(int categoryId);
     }
 }
