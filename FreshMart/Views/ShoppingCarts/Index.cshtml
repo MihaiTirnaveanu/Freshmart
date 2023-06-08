@@ -6,10 +6,8 @@
 
 <h1>Shopping Cart</h1>
 
-<p>Number of products: @Model.Size</p>
-<p>Total amount: @Model.Amount</p>
 
-<div class="single-btn">
+<div class="single-btn" style="margin-bottom: 10px;">
     <form method="get" action="@Url.Action("Index", "Products")">
         <button class="btn btn-primary">Add New Product</button>
     </form>
@@ -17,9 +15,13 @@
 <div class="btn-group" role="group" aria-label="Actions">
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Remove all products" class="btn btn-danger" />
+        <input type="submit" value="Remove all products" class="btn btn-danger" style="margin-right: 10px;"/>
     </form>
     <button class="btn btn-primary">Add Order</button>
+</div>
+<div>
+    <p style="margin-bottom:0px;">Number of products: @Model.Size</p>
+    <p>Total amount: @Model.Amount</p>
 </div>
 <table class="table">
     <thead>

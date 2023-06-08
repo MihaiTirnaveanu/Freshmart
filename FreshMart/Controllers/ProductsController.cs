@@ -52,7 +52,6 @@ namespace FreshMart.Controllers
 
 
         // GET: Products/Details/5
-        [Authorize(Roles = "Administrator")]
         public IActionResult Details(int? id)
         {
             if (id == null)

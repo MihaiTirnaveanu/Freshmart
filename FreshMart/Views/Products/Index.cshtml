@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Index";
     bool isAdmin = User.IsInRole("Administrator");
+    bool isUser = User.IsInRole("User");
 }
 
-<h1>Index</h1>
+<h1>Products</h1>
 @if (isAdmin)
 {
     <a asp-action="Create">Create New</a>
@@ -65,12 +66,16 @@
                             </div>
                         </div>
                     </form>
+                    </div>
+                        @if(isUser || isAdmin)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary action-btn">Details</a>
+
+                        } else
                         @if (isAdmin){
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary action-btn">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary action-btn">Delete</a>
                         }
-                </div>
             </td>
         </tr>
 }

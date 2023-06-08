@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Filtered By Category";
     bool isAdmin = User.IsInRole("Administrator");
+    bool isUser = User.IsInRole("User");
 }
 
-<h1>Filtered By Category</h1>
+<h1>Products of the selected category</h1>
 
 <a class="btn btn-primary" href="@Url.Action("Index", "Categories")">Back to Categories</a>
 
